@@ -10,7 +10,7 @@ export function layoutFileWatch({ root, reload }: {
   chokidar.watch(path, {
     ignoreInitial: true,
   }).on('all', async () => {
-    await buildRun()
+    await buildRun(false)
     reload()
   })
 }

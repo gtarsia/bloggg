@@ -3,9 +3,10 @@ import { rootGet } from '@/src/root/get'
 import { layoutFileWatch } from '@/src/layout/fileWatch'
 import { postFilesWatch } from '@/src/post/filesWatch'
 import { devServerRun } from '@/src/dev/serverRun'
+// import { styleWatch } from '@/src/style/watch'
 
 export async function devRun() {
-  await buildRun()
+  await buildRun(false)
 
   // Get the root of the project
   const root = await rootGet()
@@ -16,5 +17,9 @@ export async function devRun() {
   layoutFileWatch({ root, reload })
 
   // // Watch the files in ./posts/
-  // postFilesWatch({ root })
+  postFilesWatch({ root, reload })
+
+  reload()
+
+  // styleWatch({ root, reload })
 }

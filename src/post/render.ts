@@ -6,10 +6,16 @@ export function postRender({ contents, indent }: {
   contents: string,
   indent: number,
 }) {
-  const { attributes: { title }, lines } = frontmatter(contents)
+  const { attributes, lines } = frontmatter(contents)
   const rendered = marked(lines.join(EOL))
   const outLines = rendered.split(/\r?\n/)
   const outLinesIndented = outLines.map(line => `${' '.repeat(indent)}${line}`)
-  const body = outLinesIndented.join(EOL)
-  return { title, body }
+  const { title } = attributes
+  const body = `\
+  <div>
+    <a href="/">Back to posts</a>
+  </div>
+  <h1>${title}</h1>` + outLinesIndented.join(EOL)
+  const tags = (attributes.tags ?? '').split(' ')
+  return { title, body, tags }
 }

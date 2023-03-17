@@ -37,21 +37,23 @@ export function devServerRun({ root }: {
   })
   const wsSet = new Set<WebSocket>()
   const wss = new WebSocketServer({ server })
+  let reloadOnConnection = false
   wss.on('connection', (ws) => {
     wsSet.add(ws)
     ws.on('error', console.error)
-
-    // ws.on('message', (data) => {
-    //   console.log('received: %s', data)
-    // })
-
-    ws.send('somethinge')
     ws.on('close', () => {
       wsSet.delete(ws)
     })
+    if (reloadOnConnection) {
+      reloadOnConnection = false
+      ws.send('reload')
+    }
   })
   server.listen('4343')
   const reload = () => {
+    if (wsSet.size === 0) {
+      reloadOnConnection = true
+    }
     for (const ws of wsSet) {
       ws.send('reload')
     }
