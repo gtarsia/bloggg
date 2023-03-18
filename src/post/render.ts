@@ -13,7 +13,7 @@ export function postRender({ contents, indent }: {
   const { title } = attributes
   const body = `\
   <div>
-    <a href="/">Back to posts</a>
+    <a href="/blog">Back to posts</a>
   </div>
   <h1>${title}</h1>` + outLinesIndented.join(EOL)
   const tags = (attributes.tags ?? '').split(' ')

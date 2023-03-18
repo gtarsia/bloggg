@@ -12,11 +12,11 @@ export async function indexBuild({ layout, root, posts }: {
   for (const { name, title, tags } of posts) {
     body += `\
 <li>
-  <a class="post-link" href="/posts/${name}.html">${title || name}</a>
+  <a class="post-link" href="/blog/posts/${name}.html">${title || name}</a>
   <div class="post-tags">
     <span>Tags:</span>
     ${tags.map(tag => `\
-<a href="/tags/${tag}" style="margin-right: 5px"><span>${tag}</span></a>\
+<a href="/docs/tags/${tag}" style="margin-right: 5px"><span>${tag}</span></a>\
 `).join('')}
   </div>
 </li>`

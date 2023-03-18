@@ -2,33 +2,24 @@ import http from 'node:http'
 import nodePath from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { WebSocketServer, WebSocket } from 'ws'
+import { webFileRead } from '@/src/lib/webFileRead'
 import {
   devServerResponseAutoreloaderInject
 } from './serverResponseAutoreloaderInject'
-
-export async function readFileSafe(path: string) {
-  try {
-    return await readFile(path, 'utf8')
-  } catch(err) {
-    return null
-  }
-}
 
 export function devServerRun({ root }: {
   root: string,
 }) {
   const server = http.createServer(async (req, res) => {
-    const [url, query] = (req.url ?? '').split('?')
-    const endsWithSlash = url.at(-1) === '/'
-    const parts = url.split('/').filter(el => el)
-    const path = nodePath.join(
-      root, 'docs', ...parts, endsWithSlash ? 'index.html' : '')
-    let contents = await readFileSafe(path)
-    if (contents == null) {
+    const [_url, query] = (req.url ?? '').split('?')
+    const url = _url.replace(/^\/blog/, '/docs')
+    const file = await webFileRead({ root, url })
+    if (file == null) {
       res.writeHead(404).end()
       return
     }
-    if (nodePath.extname(path) === '.html') {
+    let { contents } = file
+    if (file.ext === '.html' && typeof contents === 'string') {
       // Inject script for autoreload
       contents = devServerResponseAutoreloaderInject(contents)
     }
