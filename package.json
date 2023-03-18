@@ -1,14 +1,13 @@
 {
   "name": "@zyxw/bloggg",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "exports": [
     "./dist/index.js",
     "./dist/index.d.ts"
   ],
   "files": [
-    "dist/index.js",
-    "dist/index.d.ts",
+    "dist",
     "bin.js"
   ],
   "typesVersions": {
