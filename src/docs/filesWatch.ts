@@ -1,15 +1,15 @@
 import nodePath from 'node:path'
 import chokidar from 'chokidar'
-import { buildRun } from '@/src/build/run'
 
-export function postFilesWatch({ root }: {
+export function docsFilesWatch({ root, reload }: {
   root: string,
+  reload: () => void,
 }) {
-  const path = nodePath.join(root, 'posts')
+  const path = nodePath.join(root, 'docs')
   chokidar.watch(path, {
     depth: 1,
     ignoreInitial: true,
   }).on('all', async () => {
-    await buildRun(false)
+    reload()
   })
 }

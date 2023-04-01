@@ -41,6 +41,7 @@ export function devServerRun({ root }: {
     }
   })
   server.listen('4343')
+  console.log('Server is listening at http://localhost:4343/docs')
   const reload = () => {
     if (wsSet.size === 0) {
       reloadOnConnection = true

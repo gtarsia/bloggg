@@ -27,7 +27,6 @@ export async function webFileRead({ root, url }: {
     return { contents, path, ext }
   } catch(err: any) {
     if (err.code === 'EISDIR') {
-      console.log(url)
       const newUrl = nodePath.join(url, 'index.html')
       return webFileRead({ root, url: newUrl })
     }

@@ -11,11 +11,11 @@ export async function postFilesBuild({ layout, root }: {
   const posts = await postFilesRead({ root })
 
   // Write all docs/posts/ files
-  const postsPromises = posts.map(async ({ name, contents }) => {
-    const { title, body, tags } = await postRender({ contents, indent: 4 })
+  const postsPromises = posts.map(async ({ name, contents, date }) => {
+    const { title, body, tags } = await postRender({ contents })
     const doc = layout.render({ title, body })
     await postWrite({ root, name, doc })
-    return { title, name, tags }
+    return { title, name, tags, date }
   })
   return Promise.all(postsPromises)
 }
